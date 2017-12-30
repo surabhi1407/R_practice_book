@@ -1,0 +1,271 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+This is an [R Markdown](http://rmarkdown.rstudio.com) Notebook. When you execute code within the notebook, the results appear beneath the code. 
+
+Try executing this chunk by clicking the *Run* button within the chunk or by placing your cursor inside it and pressing *Cmd+Shift+Enter*. 
+
+```{r}
+getwd()
+setwd("/Users/gauravtewari/Desktop/Desktop All/surabhi/Python-workspace/R")
+```
+
+Add a new chunk by clicking the *Insert Chunk* button on the toolbar or by pressing *Cmd+Option+I*.
+
+When you save the notebook, an HTML file containing the code and output will be saved alongside it (click the *Preview* button or press *Cmd+Shift+K* to preview the HTML file).
+
+```{r}
+df <- read.csv("recent-grads.csv")
+
+# Display top 6 and bottom 6 rows of the dataframe
+head(df,6)
+tail(df,6)
+```
+
+```{r}
+# Read the data into data frame
+df <- read.csv("recent-grads.csv")
+
+# Display top 6 and bottom 6 rows of the dataframe
+head(df,6)
+tail(df,6)
+
+# Display the datatype info about the df
+str(df)
+
+petro_eng_med_salary <- 110000
+finance_med_salary <- 47000
+
+# Check if certain variable is integer or not 
+pet_integer <- is.integer(petro_eng_med_salary)
+
+fin_integer <- is.integer(finance_med_salary)
+
+```
+Different datatyes in R:
+int is a subset of num 
+int -- Whole numbers
+num -- Decimals
+Factor -- Datatype for storing categorical data
+In factors data is stored as levels 
+Each level is a category of the data 
+Eg. In an employee db with 3 depts and 100 employees. Each employee belongs to either of the 3 depts. SO the dept data here can be stored as factors
+
+
+```{r}
+majors <- c('Arts','Biology & Life Science','Business','Computers & Mathematics', 'Engineering',
+            'Health','Humanities & Liberal Arts','Psychology & Social Work','Social Science')
+
+# Creating factors out of list and converting it into levels
+factor_majors <- factor(majors)
+major_levels<-levels(factor_majors)
+```
+
+Selecting specific data set from dataframe
+```{r}
+
+rank_1_100 <- df[(1:100),]
+architectural_engineering <- df[19,]
+computer_science <- df[21,]
+
+print(architectural_engineering)
+```
+Selecting specific columns from the dataframe
+```{r}
+select_df <- df[,c("Major","Unemployment_rate","Median","Men","Women")]
+print(select_df
+    )
+```
+
+Using the factorial vaulues to get aggrigate result for columns
+```{r}
+mech_eng_salary <- df["MECHANICAL ENGINEERING","Median"]
+comp_sci_salary <- df["COMPUTER SCIENCE","Median"]
+finance_salary <- df["FINANCE","Median"]
+
+print(mech_eng_salary)
+print(comp_sci_salary)
+print(finance_salary)
+
+```
+Using diff comparision, logical operations to select the dataset
+
+```{r}
+
+all_eng= df[df$Major_category=="Engineering" & df$ShareWomen >0.3 & df$Median > 50000 & df$Low_wage_jobs <100 ,]
+print(all_eng)
+
+```
+order -- sorts a dataframe by a column 
+```{r}
+sorted_all_eng <- all_eng[order(all_eng$Unemployment_rate),]
+print(sorted_all_eng)
+```
+Types of datatype in R 
+
+1. Vector - 1D and Stores only one type of data 
+
+```{r}
+vector <- c(10,11,23)
+
+print(vector)
+```
+
+2. Matrix - 2D and stores one type of data 
+
+```{r}
+harvard <- c(1,1,1,1,3)
+stanford <- c(2,9,3,4,10)
+MIT <- c(3,3,2,2,1)
+cambridge <- c(4,2,6,13,48)
+oxford <- c(5,7,12,9,15)
+columbia <- c(6,13,13,12,4)
+
+uni_vector <- c(harvard,stanford,MIT,cambridge,oxford,columbia)
+print(uni_vector)
+#Creating a matrix from multiple vectors 
+uni_matrix <- matrix(uni_vector, nrow = 6 , ncol = 5, byrow =TRUE)
+
+print(uni_matrix)
+
+# Adding row and column names to matrix
+
+categories <- c("world_rank","quality_of_education","influence","broad_impact","patents")
+universities <- c("Harvard","Stanford","MIT","Cambridge","Oxford","Columbia")
+
+rownames(uni_matrix) <- universities
+
+colnames(uni_matrix) <- categories
+
+print(uni_matrix)
+
+#Operations on matrix
+
+tuition <- c(43280,45000,45016,49350,28450,55161)
+#Compare the length of the new column to be added in the matrix is same as the column length of matrix
+equality <- dim(uni_matrix)[1] == length(tuition)
+# Add a new column in the matrix
+uni_matrix <- cbind(uni_matrix, tuition)
+
+#Extracting indiviual elemnts fromt the matrix
+oxford_influence <- uni_matrix[5,3]
+stanford_impact <- uni_matrix[2,4]
+cambridge_patents <- uni_matrix[4,5] 
+MIT_world_rank <- uni_matrix[3,1]
+
+#Extracting columns from the matrix
+world_rank = uni_matrix[,"world_rank"]
+columbia = uni_matrix["Columbia",]
+patents = uni_matrix[,"patents"]
+
+#Sorting the matrix based on columns
+top_edu <- sort(uni_matrix[,"quality_of_education"])
+low_cost <- sort(uni_matrix[,"tuition"])
+
+
+```
+
+3. Data frame : 2D can store any type of values
+
+```{r}
+# Read the data into data frame
+df <- read.csv("recent-grads.csv")
+
+# Display top 6 and bottom 6 rows of the dataframe
+head(df,6)
+tail(df,6)
+
+# Display the datatype info about the df
+str(df)
+
+petro_eng_med_salary <- 110000
+finance_med_salary <- 47000
+
+# Check if certain variable is integer or not 
+pet_integer <- is.integer(petro_eng_med_salary)
+
+fin_integer <- is.integer(finance_med_salary)
+
+majors <- c('Arts','Biology & Life Science','Business','Computers & Mathematics', 'Engineering',
+            'Health','Humanities & Liberal Arts','Psychology & Social Work','Social Science')
+
+# Creating factors out of list and converting it into levels
+factor_majors <- factor(majors)
+major_levels<-levels(factor_majors)
+
+all_eng= df[df$Major_category=="Engineering" & df$ShareWomen >0.3 & df$Median > 50000 & df$Low_wage_jobs <100 ,]
+print(all_eng)
+
+```
+4. Lists: 1D can store any type of values
+
+```{r}
+research <- list("Data Analyst", c(74000,60000,80000), "Must have skills with R programming")
+
+#Assign names to the list attributes
+names(research) <- c("job_title","salaries","job_requirements")
+named_research <- names(research)
+
+#Another way to initialize a list
+research <- list(job_title = "Data Analyst", salaries = c(74000,60000,80000), job_requirements = "Must have skills with R programming")
+
+#Adding another element in the list
+research <- c(research, vacation = 21)
+
+#Returning the value frm the list
+
+print(research[1]) #this retuns the name+value
+
+print(research[[1]]) # Returns just the value
+
+#Modifying the list
+
+research[[1]] <- "Jr. Data Scientist"
+
+#Appending 2 lists
+
+more_research <- list(retirement = "pension", bonus = 10000, commute_time = "30 minutes")
+combined <- c(research, more_research)
+
+print(combined)
+print(research)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
